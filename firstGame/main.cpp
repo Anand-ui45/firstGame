@@ -1,47 +1,28 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <math.h>
+
+sf::Vector2f normalize(sf::Vector2f dir) {
+  float m = std::sqrt(dir.x* dir.x+dir.y*dir.y);
+
+  sf::Vector2f normalizedVector;
+
+  normalizedVector.x = dir.x / m;
+  normalizedVector.y = dir.y / m;
+
+  return normalizedVector;
+
+};
 
 int main() {
-
-    std::vector<std::string> favgames;
-    favgames.reserve(8);
-
-
-    favgames.push_back("resident Evil 5");
-    favgames.push_back("resident Evil 4");
-    favgames.push_back("Batman Ark ashylm");
-    favgames.push_back("Batman Ark city");
-    favgames.push_back("Doom");
-    favgames.push_back("Toomb raider");
-    favgames.push_back("AC3");
-    favgames.push_back("AC4");
-   
-    std::cout << favgames.capacity() << std::endl;
-
-    for (size_t i = 0; i < favgames.size(); i++)
-    {
-        std::cout << favgames[i]<<" "<< &favgames[i] << std::endl;
-        std::cout << i<< std::endl;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //-------------------------------INITIALIZE-------------------------------
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({ 900, 680 }), "My window", sf::Style::Default, sf::State::Windowed, settings);
 
+    sf::RectangleShape bullet(sf::Vector2f(50,25));
+    bullet.setPosition(sf::Vector2f(0, 600));
+    float speed = 0.5f;
 
     //-------------------------------INITIALIZE-------------------------------
 
@@ -54,7 +35,7 @@ int main() {
 
     if (skeletonTexture.loadFromFile("Assets/Skeleton/Textures/spritesheet.png")) {
         skeletonSprite.setTexture(skeletonTexture, true);
-      skeletonSprite.setPosition(sf::Vector2f(400, 100));
+      skeletonSprite.setPosition(sf::Vector2f(600, 400));
         int xIndex = 5;
         int yIndex = 2;
 
@@ -93,16 +74,22 @@ int main() {
 
 //-------------------------------LOAD-------------------------------
 
+//-------------------------------Calculate the bullet tragectry-------------------------------
+    sf::Vector2f direction = skeletonSprite.getPosition() - bullet.getPosition();
+    direction = normalize(direction);
 
-
+//-------------------------------Calculate the bullet tragectry-------------------------------
     while (window.isOpen()) {
         //-------------------------------UPDATE-------------------------------
         while (const std::optional event = window.pollEvent()) {
 
 
-            if (event->is<sf::Event::Closed>())
+            if (event->is<sf::Event::Closed>()) 
                 window.close();
         }
+
+        bullet.setPosition(bullet.getPosition() + direction * speed);
+
         sf::Vector2f position = playerSprite.getPosition();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
             playerSprite.setPosition(position + sf::Vector2f(0, -1));
@@ -124,6 +111,7 @@ int main() {
 
         window.draw(playerSprite);
         window.draw(skeletonSprite);
+        window.draw(bullet);
 
         window.display();
         //-------------------------------DRAW-------------------------------
