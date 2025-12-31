@@ -20,8 +20,8 @@ int main() {
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({ 900, 680 }), "My window", sf::Style::Default, sf::State::Windowed, settings);
 
-    sf::RectangleShape bullet(sf::Vector2f(50,25));
-    bullet.setPosition(sf::Vector2f(0, 600));
+    std::vector<sf::RectangleShape> bullets;
+    sf::Vector2f direction;
     float speed = 0.5f;
 
     //-------------------------------INITIALIZE-------------------------------
@@ -75,8 +75,7 @@ int main() {
 //-------------------------------LOAD-------------------------------
 
 //-------------------------------Calculate the bullet tragectry-------------------------------
-    sf::Vector2f direction = skeletonSprite.getPosition() - bullet.getPosition();
-    direction = normalize(direction);
+    
 
 //-------------------------------Calculate the bullet tragectry-------------------------------
     while (window.isOpen()) {
@@ -88,7 +87,6 @@ int main() {
                 window.close();
         }
 
-        bullet.setPosition(bullet.getPosition() + direction * speed);
 
         sf::Vector2f position = playerSprite.getPosition();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -103,6 +101,20 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
             playerSprite.setPosition(position + sf::Vector2f(1, 0));
 
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            bullets.push_back(sf::RectangleShape(sf::Vector2f(50, 25)));
+            int lastI = bullets.size() - 1;
+            bullets[lastI].setPosition(playerSprite.getPosition());
+        }
+
+        for (size_t i = 0; i < bullets.size(); i++)
+        {
+            
+            sf::Vector2f direction = skeletonSprite.getPosition() - bullets[i].getPosition();
+            direction = normalize(direction);
+            bullets[i].setPosition(bullets[i].getPosition() + direction * speed);
+
+        }
         //-------------------------------UPDATE-------------------------------
 
         //-------------------------------DRAW-------------------------------
@@ -111,7 +123,11 @@ int main() {
 
         window.draw(playerSprite);
         window.draw(skeletonSprite);
-        window.draw(bullet);
+        for (size_t i = 0; i < bullets.size(); i++)
+        {
+
+        window.draw(bullets[i]);
+        }
 
         window.display();
         //-------------------------------DRAW-------------------------------
