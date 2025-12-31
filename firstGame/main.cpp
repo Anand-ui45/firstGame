@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include "Player.h"
+#include "Skeleton.h"
 
 sf::Vector2f normalize(sf::Vector2f dir) {
   float m = std::sqrt(dir.x* dir.x+dir.y*dir.y);
@@ -24,51 +26,26 @@ int main() {
     sf::Vector2f direction;
     float speed = 0.5f;
 
+    Player player;
+
+    player.Initialize();
+    player.Load();
+
     //-------------------------------INITIALIZE-------------------------------
 
     //-------------------------------LOAD-------------------------------
 
     //-------------------------------Skeleton-------------------------------
 
-    sf::Texture skeletonTexture;
-    sf::Sprite skeletonSprite(skeletonTexture); //we need to give empty texture to the sprite
+    Skeleton skeleton;
 
-    if (skeletonTexture.loadFromFile("Assets/Skeleton/Textures/spritesheet.png")) {
-        skeletonSprite.setTexture(skeletonTexture, true);
-      skeletonSprite.setPosition(sf::Vector2f(600, 400));
-        int xIndex = 5;
-        int yIndex = 2;
-
-        skeletonSprite.setTextureRect(sf::IntRect({ xIndex * 64, yIndex * 64 }, { 64, 64 }));
-        skeletonSprite.setScale(sf::Vector2f(3, 3));
-        std::cout << "enemy sprite Loaded" << std::endl;
-    }
-    else {
-        std::cout << "sprite not Loaded" << std::endl;
-
-    };
+    skeleton.Initialize();
+    skeleton.Load();
     //-------------------------------Skeleton-------------------------------
 
     //-------------------------------player-------------------------------
 
-    sf::Texture playerTexture;
-    sf::Sprite playerSprite(playerTexture); //we need to give empty texture to the sprite
-
-    if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png")) {
-        playerSprite.setTexture(playerTexture, true);
-
-        int xIndex = 5;
-        int yIndex = 1;
-
-        playerSprite.setTextureRect(sf::IntRect({ xIndex * 64, yIndex * 64 }, { 64, 64 }));
-        playerSprite.setScale(sf::Vector2f(3, 3));
-        std::cout << "player sprite Loaded" << std::endl;
-
-    }
-    else {
-        std::cout << "sprite not Loaded" << std::endl;
-
-    }
+   
     //-------------------------------player-------------------------------
 
 
@@ -88,29 +65,19 @@ int main() {
         }
 
 
-        sf::Vector2f position = playerSprite.getPosition();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-            playerSprite.setPosition(position + sf::Vector2f(0, -1));
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-            playerSprite.setPosition(position + sf::Vector2f(-1, 0));
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-            playerSprite.setPosition(position + sf::Vector2f(0, 1));
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-            playerSprite.setPosition(position + sf::Vector2f(1, 0));
+        player.Update();
+        skeleton.Update();
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             bullets.push_back(sf::RectangleShape(sf::Vector2f(50, 25)));
             int lastI = bullets.size() - 1;
-            bullets[lastI].setPosition(playerSprite.getPosition());
+            bullets[lastI].setPosition(player.sprite.getPosition());
         }
 
         for (size_t i = 0; i < bullets.size(); i++)
         {
             
-            sf::Vector2f direction = skeletonSprite.getPosition() - bullets[i].getPosition();
+            sf::Vector2f direction = skeleton.sprite.getPosition() - bullets[i].getPosition();
             direction = normalize(direction);
             bullets[i].setPosition(bullets[i].getPosition() + direction * speed);
 
@@ -121,8 +88,8 @@ int main() {
 
         window.clear(sf::Color::Black);
 
-        window.draw(playerSprite);
-        window.draw(skeletonSprite);
+        window.draw(player.sprite);
+        window.draw(skeleton.sprite);
         for (size_t i = 0; i < bullets.size(); i++)
         {
 
