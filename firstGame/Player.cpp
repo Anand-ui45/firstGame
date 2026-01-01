@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <iostream>
+#include "Math.h"
 
 void Player::Initialize(){
 
@@ -24,7 +25,7 @@ void Player::Load(){
     }
 }
 
-void Player::Update()
+void Player::Update(Skeleton& skeleton)
 {
     sf::Vector2f position = sprite.getPosition();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -38,8 +39,34 @@ void Player::Update()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         sprite.setPosition(position + sf::Vector2f(1, 0));
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        bullets.push_back(sf::RectangleShape(sf::Vector2f(50, 25)));
+        int lastI = bullets.size() - 1;
+        bullets[lastI].setPosition(sprite.getPosition());
+    }
+
+    for (size_t i = 0; i < bullets.size(); i++)
+    {
+
+        sf::Vector2f direction = skeleton.sprite.getPosition() - bullets[i].getPosition();
+        direction = Math::Normalize(direction);
+        bullets[i].setPosition(bullets[i].getPosition() + direction * speed);
+
+    }
 }
 
-void Player::Draw()
-{
+
+
+void Player::Draw(sf::RenderWindow& window){
+
+    window.draw(sprite);
+    for (size_t i = 0; i < bullets.size(); i++)
+    {
+
+        window.draw(bullets[i]);
+    }
+
 }
+
+
