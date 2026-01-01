@@ -2,7 +2,10 @@
 #include <iostream>
 
 void Skeleton::Initialize(){
-
+    boundingRectangel.setFillColor(sf::Color::Transparent);
+    boundingRectangel.setOutlineColor(sf::Color::Red);
+    boundingRectangel.setOutlineThickness(1);
+    size = sf::Vector2i(64, 64);
 }
 
 void Skeleton::Load(){
@@ -13,7 +16,10 @@ void Skeleton::Load(){
         int yIndex = 2;
 
         sprite.setTextureRect(sf::IntRect({ xIndex * 64, yIndex * 64 }, { 64, 64 }));
+        
         sprite.setScale(sf::Vector2f(3, 3));
+        boundingRectangel.setSize(sf::Vector2f(size.x * sprite.getScale().x, size.y * sprite.getScale().y));
+
         std::cout << "enemy sprite Loaded" << std::endl;
     }
     else {
@@ -23,11 +29,11 @@ void Skeleton::Load(){
 }
 
 void Skeleton::Update(){
-
+    boundingRectangel.setPosition(sprite.getPosition());
 }
 
 void Skeleton::Draw(sf::RenderWindow& window){
-
+    window.draw(boundingRectangel);
     window.draw(sprite);
 
 }

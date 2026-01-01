@@ -4,7 +4,9 @@
 class Skeleton{
 private:
 	sf::Texture texture;
+	sf::RectangleShape boundingRectangel;
 
+	sf::Vector2i size;
 public:
 	sf::Sprite sprite;
 	Skeleton() :sprite(texture) {};

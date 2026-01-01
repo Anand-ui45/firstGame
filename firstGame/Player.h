@@ -7,6 +7,9 @@ private:
 	sf::Texture texture;
 	std::vector<sf::RectangleShape> bullets;
 	float speed = 1.f;
+	sf::RectangleShape boundingRectangel;
+
+	sf::Vector2i size;
 	
 public:
 	sf::Sprite sprite;
