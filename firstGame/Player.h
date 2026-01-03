@@ -6,7 +6,9 @@ class Player{
 private:
 	sf::Texture texture;
 	std::vector<sf::RectangleShape> bullets;
-	float speed = 1.f;
+	float bulletSpeed = 1.f;
+	float playerSpeed = 2.0f;
+
 	sf::RectangleShape boundingRectangel;
 
 	sf::Vector2i size;
@@ -16,7 +18,7 @@ public:
 	Player() :sprite(texture) {};
 	void Initialize();
 	void Load();
-	void Update(Skeleton& skeleton);
+	void Update(float deltatime,Skeleton& skeleton);
 	void Draw(sf::RenderWindow& window);
 };
 

@@ -12,7 +12,7 @@ public:
 	Skeleton() :sprite(texture) {};
 	void Initialize();
 	void Load();
-	void Update();
+	void Update(float deltatime);
 	void Draw(sf::RenderWindow& window);
 };
 
