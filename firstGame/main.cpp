@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Skeleton.h"
+#include "FrameRate.h"
 #include <iostream>
 
 
@@ -9,22 +10,26 @@ int main() {
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window", sf::Style::Default, sf::State::Windowed, settings);
-    window.setVerticalSyncEnabled(true);
+   
 
+   
+
+    FrameRate frameRate;
     Player player;
     Skeleton skeleton;
 
     skeleton.Initialize();
     player.Initialize();
-   
+    frameRate.Initialize();
+
     //-------------------------------INITIALIZE-------------------------------
 
     
 
   
     //-------------------------------LOAD-------------------------------
-
-
+  
+    frameRate.Load();
     player.Load();
     skeleton.Load();
 
@@ -36,8 +41,9 @@ int main() {
 
 
         sf::Time deltatimeTimer = clock.restart();
-        float deltatime = deltatimeTimer.asMilliseconds();
+        double deltatime = deltatimeTimer.asMicroseconds()/1000.0;
 
+       
         //-------------------------------UPDATE-------------------------------
         while (const std::optional event = window.pollEvent()) {
 
@@ -48,6 +54,7 @@ int main() {
 
        
 
+        frameRate.Update(deltatime);
         player.Update(deltatime,skeleton);
         skeleton.Update(deltatime);
 
@@ -57,7 +64,8 @@ int main() {
         //-------------------------------DRAW-------------------------------
 
         window.clear(sf::Color::Black);
-
+        
+        frameRate.Draw(window);
         player.Draw(window);
         skeleton.Draw(window);
         

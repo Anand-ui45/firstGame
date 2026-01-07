@@ -9,7 +9,8 @@ private:
 	sf::Vector2i size;
 public:
 	sf::Sprite sprite;
-	Skeleton() :sprite(texture) {};
+	Skeleton();
+	~Skeleton();
 	void Initialize();
 	void Load();
 	void Update(float deltatime);

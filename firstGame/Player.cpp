@@ -2,6 +2,13 @@
 #include <iostream>
 #include "Math.h"
 
+Player::Player(): sprite(texture),bulletSpeed(1.f),playerSpeed(2.f){
+}
+
+Player::~Player()
+{
+}
+
 void Player::Initialize(){
 
     boundingRectangel.setFillColor(sf::Color::Transparent);
