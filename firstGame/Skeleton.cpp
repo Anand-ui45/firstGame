@@ -1,7 +1,16 @@
 #include "Skeleton.h"
 #include <iostream>
 
-Skeleton::Skeleton():sprite(texture){
+
+
+void Skeleton::ChangeHealth(int hp)
+{
+     health += hp;
+     text.setString(std::to_string(health));
+    
+}
+
+Skeleton::Skeleton():sprite(texture), health(100),text(font){
 }
 
 Skeleton::~Skeleton()
@@ -9,6 +18,7 @@ Skeleton::~Skeleton()
 }
 
 void Skeleton::Initialize(){
+     
     boundingRectangel.setFillColor(sf::Color::Transparent);
     boundingRectangel.setOutlineColor(sf::Color::Red);
     boundingRectangel.setOutlineThickness(1);
@@ -33,16 +43,29 @@ void Skeleton::Load(){
         std::cout << "sprite not Loaded" << std::endl;
 
     };
+    if (font.openFromFile("Assets/Fonts/arial.ttf")) {
+        text.setFont(font);
+    };
+
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Red);
+    text.setString(std::to_string(health));
+
 }
 
 void Skeleton::Update(float deltatime){
-    boundingRectangel.setPosition(sprite.getPosition());
+    if (health > 0) {
+        boundingRectangel.setPosition(sprite.getPosition());
+        text.setPosition(boundingRectangel.getPosition());
+    }
 }
 
 void Skeleton::Draw(sf::RenderWindow& window){
-    window.draw(boundingRectangel);
-    window.draw(sprite);
-
+    if (health > 0) {
+        window.draw(text);
+        window.draw(boundingRectangel);
+        window.draw(sprite);
+    }
 }
 
 

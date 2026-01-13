@@ -1,8 +1,9 @@
+#include "Math.h"
 #include "Player.h"
 #include <iostream>
-#include "Math.h"
 
-Player::Player(): sprite(texture),bulletSpeed(1.f),playerSpeed(2.f){
+Player::Player(): sprite(texture),playerSpeed(1.f),maxFireRate(150),fireRateTimer(0){
+    
 }
 
 Player::~Player()
@@ -40,7 +41,7 @@ void Player::Load(){
     }
 }
 
-void Player::Update(float deltatime,Skeleton& skeleton)
+void Player::Update(float deltatime,Skeleton& skeleton, sf::Vector2f &mousePosition)
 {
     sf::Vector2f position = sprite.getPosition();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -54,26 +55,38 @@ void Player::Update(float deltatime,Skeleton& skeleton)
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         sprite.setPosition(position + sf::Vector2f(1, 0) * playerSpeed * deltatime);
+   
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        bullets.push_back(sf::RectangleShape(sf::Vector2f(50, 25)));
+//-------------------------------------------------------------------------------------------------
+    fireRateTimer += deltatime;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)&&fireRateTimer>=maxFireRate) {
+        bullets.push_back(Bullet());
         int lastI = bullets.size() - 1;
-        bullets[lastI].setPosition(sprite.getPosition());
+        bullets[lastI].Initialize(sprite.getPosition(),mousePosition, .5f);
+       
+        fireRateTimer = 0;
     }
 
     for (size_t i = 0; i < bullets.size(); i++)
     {
+       
 
-        sf::Vector2f direction = skeleton.sprite.getPosition() - bullets[i].getPosition();
-        direction = Math::Normalize(direction);
-        bullets[i].setPosition(bullets[i].getPosition() + direction * bulletSpeed*deltatime);
+        bullets[i].Update(deltatime);
+        
+        if (skeleton.health>0) {
+            if (Math::DidRectCollide(bullets[i].GetGlobalBounds(), skeleton.sprite.getGlobalBounds())) {
+                skeleton.ChangeHealth(-10);
+                bullets.erase(bullets.begin() + i);
+            }
+           
+
+        }
 
     }
     boundingRectangel.setPosition(sprite.getPosition());
 
-    if (Math::DidRectCollide(sprite.getGlobalBounds(), skeleton.sprite.getGlobalBounds())) {
-        std::cout << "collision" << std::endl;
-    }
+    
+//-----------------------------------------------------------------------------------------------------------------
 }
 
 
@@ -85,7 +98,7 @@ void Player::Draw(sf::RenderWindow& window){
     for (size_t i = 0; i < bullets.size(); i++)
     {
 
-        window.draw(bullets[i]);
+        bullets[i].Draw(window);
     }
 
 }

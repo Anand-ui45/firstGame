@@ -9,7 +9,7 @@ int main() {
     //-------------------------------INITIALIZE-------------------------------
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window", sf::Style::Default, sf::State::Windowed, settings);
+    sf::RenderWindow window(sf::VideoMode({ 1920,1080 }), "My window", sf::Style::Default, sf::State::Windowed, settings);
    
 
    
@@ -53,9 +53,9 @@ int main() {
         }
 
        
-
+        sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
         frameRate.Update(deltatime);
-        player.Update(deltatime,skeleton);
+        player.Update(deltatime,skeleton,mousePosition);
         skeleton.Update(deltatime);
 
         

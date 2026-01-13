@@ -1,13 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Skeleton.h"
+#include "Bullet.h"
+
 
 class Player{
 private:
 	sf::Sprite sprite;
 	sf::Texture texture;
-	std::vector<sf::RectangleShape> bullets;
-	float bulletSpeed;
+	std::vector<Bullet> bullets;
+	float maxFireRate;
+	float fireRateTimer;
+
 	float playerSpeed;
 
 	sf::RectangleShape boundingRectangel;
@@ -19,7 +23,7 @@ public:
 	~Player();
 	void Initialize();
 	void Load();
-	void Update(float deltatime,Skeleton& skeleton);
+	void Update(float deltatime,Skeleton& skeleton, sf::Vector2f &mousPosition);
 	void Draw(sf::RenderWindow& window);
 };
 
