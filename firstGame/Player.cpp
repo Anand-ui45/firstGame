@@ -55,7 +55,7 @@ void Player::Update(float deltatime,Skeleton& skeleton, sf::Vector2f &mousePosit
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         sprite.setPosition(position + sf::Vector2f(1, 0) * playerSpeed * deltatime);
-   
+
 
 //-------------------------------------------------------------------------------------------------
     fireRateTimer += deltatime;
@@ -73,6 +73,9 @@ void Player::Update(float deltatime,Skeleton& skeleton, sf::Vector2f &mousePosit
 
         bullets[i].Update(deltatime);
         
+    
+
+
         if (skeleton.health>0) {
             if (Math::DidRectCollide(bullets[i].GetGlobalBounds(), skeleton.sprite.getGlobalBounds())) {
                 skeleton.ChangeHealth(-10);

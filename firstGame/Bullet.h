@@ -8,6 +8,7 @@ private:
 	sf::Vector2f direction;
 	float speed;
 
+
 public:
 	Bullet();
 	~Bullet();
@@ -17,6 +18,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	inline const sf::FloatRect& GetGlobalBounds() { return rectangleShape.getGlobalBounds(); }
+
 
 };
 

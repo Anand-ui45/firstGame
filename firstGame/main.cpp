@@ -3,7 +3,7 @@
 #include "Skeleton.h"
 #include "FrameRate.h"
 #include <iostream>
-
+#include "Map.h"
 
 int main() {
     //-------------------------------INITIALIZE-------------------------------
@@ -13,7 +13,7 @@ int main() {
    
 
    
-
+    Map map;
     FrameRate frameRate;
     Player player;
     Skeleton skeleton;
@@ -21,6 +21,7 @@ int main() {
     skeleton.Initialize();
     player.Initialize();
     frameRate.Initialize();
+    map.Initialize();
 
     //-------------------------------INITIALIZE-------------------------------
 
@@ -32,6 +33,7 @@ int main() {
     frameRate.Load();
     player.Load();
     skeleton.Load();
+    map.Load();
 
    
     //-------------------------------LOAD-------------------------------
@@ -57,6 +59,7 @@ int main() {
         frameRate.Update(deltatime);
         player.Update(deltatime,skeleton,mousePosition);
         skeleton.Update(deltatime);
+        map.Update(deltatime);
 
         
         //-------------------------------UPDATE-------------------------------
@@ -65,6 +68,7 @@ int main() {
 
         window.clear(sf::Color::Black);
         
+        map.Draw(window);
         frameRate.Draw(window);
         player.Draw(window);
         skeleton.Draw(window);
