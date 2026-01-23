@@ -36,7 +36,7 @@ void Player::Load(){
 
     }
     else {
-        std::cout << "sprite not Loaded" << std::endl;
+        std::cout << "Player sprite not Loaded" << std::endl;
 
     }
 }
@@ -62,7 +62,7 @@ void Player::Update(float deltatime,Skeleton& skeleton, sf::Vector2f &mousePosit
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)&&fireRateTimer>=maxFireRate) {
         bullets.push_back(Bullet());
         int lastI = bullets.size() - 1;
-        bullets[lastI].Initialize(sprite.getPosition(),mousePosition, .5f);
+        bullets[lastI].Initialize(sprite.getPosition(),mousePosition, 2.f);
        
         fireRateTimer = 0;
     }

@@ -40,7 +40,7 @@ void Skeleton::Load(){
         std::cout << "enemy sprite Loaded" << std::endl;
     }
     else {
-        std::cout << "sprite not Loaded" << std::endl;
+        std::cout << "enemy sprite not Loaded" << std::endl;
 
     };
     if (font.openFromFile("Assets/Fonts/arial.ttf")) {
