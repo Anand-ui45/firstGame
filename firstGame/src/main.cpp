@@ -4,6 +4,8 @@
 #include "FrameRate.h"
 #include <iostream>
 #include "Map.h"
+#include "MapLoader.h"
+
 
 int main() {
     //-------------------------------INITIALIZE-------------------------------
@@ -17,6 +19,11 @@ int main() {
     FrameRate frameRate;
     Player player;
     Skeleton skeleton;
+    MapLoader maploader;
+
+    maploader.Load("assets/maps/level_1.rmap");
+
+
 
     skeleton.Initialize();
     player.Initialize();

@@ -12,7 +12,10 @@ private:
 	int tileHeight;
 	int totalTilesX;
 	int totalTilesY;
-	int mapNumbers[6] = {120,121,122,144,145,146};
+	static const int mapArraySize = 6;
+	int mapWidth;
+	int mapHeight;
+	int mapNumbers[mapArraySize] = {120,121,122,144,145,146};
 	std::vector<sf::Sprite> mapSprties;
 
 
