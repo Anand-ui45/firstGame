@@ -1,21 +1,24 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
+#include "MapLoader.h"
+#include "MapData.h"
 
 class Map{
 private:
 	sf::Texture tileTexture;
 	int totalTiles;
 	Tile* tiles;
+
+	MapLoader maploader;
+	MapData mapsData;
 	
-	int tileWidth;
-	int tileHeight;
+	
 	int totalTilesX;
 	int totalTilesY;
-	static const int mapArraySize = 6;
-	int mapWidth;
-	int mapHeight;
-	int mapNumbers[mapArraySize] = {120,121,122,144,145,146};
+	
+	
+	
 	std::vector<sf::Sprite> mapSprties;
 
 

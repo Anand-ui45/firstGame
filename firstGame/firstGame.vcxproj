@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MapData.cpp" />
     <ClCompile Include="src\MapLoader.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\FrameRate.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MapData.h" />
     <ClInclude Include="src\MapLoader.h" />
     <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\FrameRate.h" />

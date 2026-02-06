@@ -1,9 +1,11 @@
 #include "Map.h"
 #include <iostream>
 
-Map::Map():tileWidth(16),tileHeight(16),totalTilesX(0),totalTilesY(0),totalTiles(0),mapHeight(2),mapWidth(3),tiles(nullptr){
+Map::Map():totalTilesX(0),totalTilesY(0),totalTiles(0),tiles(nullptr){
 	
-	for (size_t i = 0; i < mapArraySize; i++) {
+	maploader.Load("assets/maps/level_1.rmap", mapsData);//its load data from file and saved the data to the second arugement
+	mapSprties.reserve(mapsData.dataLength);
+	for (size_t i = 0; i < mapsData.dataLength; i++) {
 		mapSprties.emplace_back(tileTexture);
 	}
 }
@@ -17,11 +19,15 @@ void Map::Initialize(){
 }
 
 void Map::Load(){
-	if (tileTexture.loadFromFile("assets/world/prison/tilesheet.png")) {
+
+
+
+
+	if (tileTexture.loadFromFile(mapsData.tilesheet)) {
      
 		std::cout << "map loaded" << std::endl;
-		totalTilesX = tileTexture.getSize().x / 16;//24
-		totalTilesY = tileTexture.getSize().y / 16;//12
+		totalTilesX = tileTexture.getSize().x / mapsData.cellSizeX;//24
+		totalTilesY = tileTexture.getSize().y / mapsData.cellSizeY;//12
 
 		int xIndex = 0;
 		int yIndex = 0;
@@ -36,7 +42,7 @@ void Map::Load(){
 
 				int i = x + y * totalTilesX;
 				tiles[i].id = i;
-				tiles[i].position = sf::Vector2i(x * tileWidth, y * tileHeight);
+				tiles[i].position = sf::Vector2i(x * mapsData.cellSizeX, y * mapsData.cellSizeY);
 				
 		
 			}
@@ -46,16 +52,16 @@ void Map::Load(){
 	else {
 		std::cout << "map not loaded" << std::endl;
 	}
-	for (int y = 0; y < mapHeight; y++) {
-		for (int x = 0; x < mapWidth; x++) {
-			int i = x + y * mapWidth;
-			int index = mapNumbers[i];
+	for (int y = 0; y < mapsData.totalCellsY; y++) {
+		for (int x = 0; x < mapsData.totalCellsX; x++) {
+			int i = x + y * mapsData.totalCellsX;
+			int index = mapsData.data[i];
 
 			if (i < mapSprties.size()) {
 				mapSprties[i].setTexture(tileTexture);
-				mapSprties[i].setTextureRect(sf::IntRect({ tiles[index].position.x, tiles[index].position.y }, { tileHeight, tileWidth }));
-				mapSprties[i].setScale({ 5, 5 });
-				mapSprties[i].setPosition({ 100+ x * tileWidth * mapSprties[i].getScale().x, 100 + y * tileHeight * mapSprties[i].getScale().y});
+				mapSprties[i].setTextureRect(sf::IntRect({ tiles[index].position.x, tiles[index].position.y }, { mapsData.cellSizeX, mapsData.cellSizeY }));
+				mapSprties[i].setScale(sf::Vector2f( mapsData.mapScaleX, mapsData.mapScaleY ));
+				mapSprties[i].setPosition(sf::Vector2f( mapsData.mapPositionX+ x * mapsData.cellSizeX * mapsData.mapScaleX, mapsData.mapPositionY + y * mapsData.cellSizeY * mapsData.mapScaleY ));
 			}
 		}
 	}
@@ -66,7 +72,7 @@ void Map::Update(float deltatime)
 }
 
 void Map::Draw(sf::RenderWindow& window){
-	for (int i = 0; i < mapArraySize; i++) {
+	for (int i = 0; i < mapsData.dataLength; i++) {
 		window.draw(mapSprties[i]);
 	}
 	
