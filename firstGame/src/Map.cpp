@@ -58,7 +58,7 @@ void Map::Load(){
 			int index = mapsData.data[i];
 
 			if (i < mapSprties.size()) {
-				mapSprties[i].setTexture(tileTexture);
+				mapSprties[i].setTexture(tileTexture,true);
 				mapSprties[i].setTextureRect(sf::IntRect({ tiles[index].position.x, tiles[index].position.y }, { mapsData.cellSizeX, mapsData.cellSizeY }));
 				mapSprties[i].setScale(sf::Vector2f( mapsData.mapScaleX, mapsData.mapScaleY ));
 				mapSprties[i].setPosition(sf::Vector2f( mapsData.mapPositionX+ x * mapsData.cellSizeX * mapsData.mapScaleX, mapsData.mapPositionY + y * mapsData.cellSizeY * mapsData.mapScaleY ));

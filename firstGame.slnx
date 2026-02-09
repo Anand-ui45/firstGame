@@ -4,4 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="firstGame/firstGame.vcxproj" Id="b27e01ed-e5d2-46fc-86b1-f8a0dd2b5d0a" />
+  <Project Path="mapEditor/mapEditor.vcxproj" Id="7f8b2178-f43b-4864-9887-9edccc446e1c" />
 </Solution>

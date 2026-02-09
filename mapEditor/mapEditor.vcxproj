@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b27e01ed-e5d2-46fc-86b1-f8a0dd2b5d0a}</ProjectGuid>
-    <RootNamespace>firstGame</RootNamespace>
+    <ProjectGuid>{7f8b2178-f43b-4864-9887-9edccc446e1c}</ProjectGuid>
+    <RootNamespace>mapEditor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,18 +70,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
     <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
@@ -90,11 +78,23 @@
     <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
     <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -109,7 +109,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -149,26 +149,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\MapData.cpp" />
-    <ClCompile Include="src\MapLoader.cpp" />
-    <ClCompile Include="src\Bullet.cpp" />
-    <ClCompile Include="src\FrameRate.cpp" />
+    <ClCompile Include="src\MouseTile.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Math.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MapData.h" />
-    <ClInclude Include="src\MapLoader.h" />
-    <ClInclude Include="src\Bullet.h" />
-    <ClInclude Include="src\FrameRate.h" />
-    <ClInclude Include="src\Map.h" />
-    <ClInclude Include="src\Math.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\Skeleton.h" />
-    <ClInclude Include="src\Tile.h" />
+    <ClInclude Include="src\MouseTile.h" />
+    <ClInclude Include="src\Grid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
