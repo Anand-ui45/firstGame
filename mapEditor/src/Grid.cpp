@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <iostream>
 
 Grid::Grid(const sf::Vector2f& position,
 	const sf::Vector2i& cellSize,
@@ -59,8 +60,8 @@ void Grid::Load()
 {
 }
 
-void Grid::Update(float deltatime)
-{
+void Grid::Update(float deltatime){
+
 }
 
 void Grid::Draw(sf::RenderWindow& window){
