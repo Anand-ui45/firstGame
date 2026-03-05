@@ -3,6 +3,9 @@
 #include "Grid.h"
 #include "MouseTile.h"
 #include "Map.h"
+#include "gui/Button.h"
+#include "MapSaver.h"
+#include <core/MapData.h>
 
 
 
@@ -12,16 +15,21 @@ int main() {
     //-------------------------------INITIALIZE-------------------------------
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode({ 1920,1080 }), "My Editor window", sf::Style::Default, sf::State::Windowed, settings);
+    sf::RenderWindow window(sf::VideoMode({ 1080,800 }), "My Editor window", sf::Style::Default, sf::State::Windowed, settings);
     window.setFramerateLimit(140);
 
-    Grid grid(sf::Vector2f(0,0), sf::Vector2i(16, 16),sf::Vector2i(10,5), sf::Vector2i(10,10),sf::Color(255,255,255,100), 2);
-    MouseTile mouseTile(sf::Vector2i(16,16), sf::Vector2f(10,10), sf::Vector2f(0, 0));
-    Map map(mouseTile);
+    Grid grid(sf::Vector2f(0,150), sf::Vector2i(16, 16),sf::Vector2i(10,5), sf::Vector2i(5,5),sf::Color(255,255,255,100), 2);
+    MouseTile mouseTile(grid, sf::Vector2i(16,16), sf::Vector2f(5,5), sf::Vector2f(0, 150));
+    Map map(grid,mouseTile);
+    gui::Button button(sf::Vector2f(50, 50), sf::Vector2f(3, 3));
+    MapSaver mSaver;
+
+   
 
     grid.Initialize();
     mouseTile.Initialize();
-    map.Intailize();
+    map.Initialize();
+    button.Initialize();
     //-------------------------------INITIALIZE-------------------------------
 
 
@@ -30,6 +38,8 @@ int main() {
     grid.Load();
     mouseTile.Load();
     map.Load();
+    button.Load();
+
 
 
     //-------------------------------LOAD-------------------------------
@@ -56,6 +66,28 @@ int main() {
         grid.Update(deltatime);
         mouseTile.Update(deltatime,mousePosition);
         map.Update(deltatime);
+        button.Update(deltatime,mousePosition);
+
+        if (button.IsPressed()) {
+            MapData mapData(
+                "assets/world/prison/tilesheet.png",
+                "Level 1",
+                grid.GetPosition().x,
+                grid.GetPosition().y,
+                grid.GetCellSize().x,
+                grid.GetCellSize().x,
+                grid.GetTotalCells().x,
+                grid.GetTotalCells().y,
+                grid.GetScale().x,
+                grid.GetScale().y,
+                grid.GetTotalCells().x * grid.GetTotalCells().y,
+                map.GetTileIDs()
+            );
+
+
+            mSaver.Save("test1.rmap", mapData);
+            std::cout << "map is saved" << std::endl;
+        }
 
 
         //-------------------------------UPDATE-------------------------------
@@ -67,6 +99,7 @@ int main() {
         map.Draw(window);
         grid.Draw(window);
         mouseTile.Draw(window);
+        button.Draw(window);
         
         window.display();
         //-------------------------------DRAW-------------------------------

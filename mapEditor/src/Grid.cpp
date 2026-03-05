@@ -27,15 +27,14 @@ Grid::~Grid() {
 void Grid::Initialize(){
 	
 
+	m_size = sf::Vector2f(m_totalCells.x * m_cellSize.x * m_scale.x - m_lineThicknes, m_totalCells.y * m_cellSize.y * m_scale.y);
 
-	int horizontalLineLength = m_totalCells.x * m_cellSize.x* m_scale.x+m_lineThicknes;//adding lineThicknes here for completness of the grid.
 
-	int verticalLineLength = m_totalCells.y * m_cellSize.y* m_scale.y;
 
 	for (int i = 0; i < m_totalLines.y; i++){
 		
 
-	m_hLine[i].setSize(sf::Vector2f(horizontalLineLength, m_lineThicknes));
+	m_hLine[i].setSize(sf::Vector2f(m_size.x + m_lineThicknes, m_lineThicknes));
 	m_hLine[i].setPosition(m_position + sf::Vector2f(0, i * m_cellSize.x * m_scale.x));
 	m_hLine[i].setFillColor(m_color);
 	
@@ -44,7 +43,7 @@ void Grid::Initialize(){
 	for (int i = 0; i < m_totalLines.x; i++) {
 		
 
-		m_vLine[i].setSize(sf::Vector2f(m_lineThicknes,verticalLineLength));
+		m_vLine[i].setSize(sf::Vector2f(m_lineThicknes, m_size.y));
 		m_vLine[i].setPosition(m_position+sf::Vector2f(i*m_cellSize.y*m_scale.y,0));
 		m_vLine[i].setFillColor(m_color);
 

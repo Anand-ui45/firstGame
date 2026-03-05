@@ -3,6 +3,11 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="firstGame/firstGame.vcxproj" Id="b27e01ed-e5d2-46fc-86b1-f8a0dd2b5d0a" />
-  <Project Path="mapEditor/mapEditor.vcxproj" Id="7f8b2178-f43b-4864-9887-9edccc446e1c" />
+  <Project Path="Core/Core.vcxproj" Id="b7dc80e9-ccce-4cc1-9ed6-c1be0b7c5bdc" />
+  <Project Path="firstGame/firstGame.vcxproj" Id="b27e01ed-e5d2-46fc-86b1-f8a0dd2b5d0a">
+    <BuildDependency Project="Core/Core.vcxproj" />
+  </Project>
+  <Project Path="mapEditor/mapEditor.vcxproj" Id="7f8b2178-f43b-4864-9887-9edccc446e1c">
+    <BuildDependency Project="Core/Core.vcxproj" />
+  </Project>
 </Solution>

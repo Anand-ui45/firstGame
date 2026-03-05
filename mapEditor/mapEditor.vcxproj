@@ -81,14 +81,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
     <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(SolutionDir)dependencies\core\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(SolutionDir)dependencies\core\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\bin\</OutDir>
     <IntDir>$(SolutionDir)Build\$(MSBuildProjectName)\$(Platform)\$(Configuration)\intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dependencies\sfml_3.0.2\include;$(SolutionDir)dependencies\core\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\sfml_3.0.2\lib;$(SolutionDir)dependencies\core\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,12 +149,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MapSaver.cpp" />
+    <ClCompile Include="src\gui\Button.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\MouseTile.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MapSaver.h" />
+    <ClInclude Include="src\gui\Button.h" />
     <ClInclude Include="src\Map.h" />
     <ClInclude Include="src\MouseTile.h" />
     <ClInclude Include="src\Grid.h" />
