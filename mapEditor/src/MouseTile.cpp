@@ -25,6 +25,7 @@ void MouseTile::Initialize()
 void MouseTile::Load(){
 	if (m_tileSheet.loadFromFile("assets/world/prison/tilesheet.png")) {
 	m_tile.setTexture(m_tileSheet,true);
+	m_tilesPerRow = m_tileSheet.getSize().x / m_tileSize.x;
 
 	m_currentTileID = 11;
 	m_tile.setTextureRect({ {m_currentTileID * m_tileSize.x,0}, { m_tileSize.x,m_tileSize.y } });
@@ -42,12 +43,12 @@ void MouseTile::Update(float deltatime, const sf::Vector2f& mousePosition) {
 	const sf::Vector2f& gridSize = m_grid.GetSize();
 	const sf::Vector2i& totalCells = m_grid.GetTotalCells(); // Get grid limits
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Space)) {
+	int tx = (m_currentTileID % m_tilesPerRow) * m_tileSize.x;
+	int ty = (m_currentTileID / m_tilesPerRow) * m_tileSize.y;
+	
+		m_tile.setTextureRect({ {tx, ty}, { m_tileSize.x,m_tileSize.y } });
 
-		m_currentTileID = 12;
-		m_tile.setTextureRect({ {m_currentTileID * m_tileSize.x,0}, { m_tileSize.x,m_tileSize.y } });
 
-	}
 
 	if ((mousePosition.x > gridPosition.x && mousePosition.x < gridPosition.x + gridSize.x) &&
 		(mousePosition.y > gridPosition.y && mousePosition.y < gridPosition.y + gridSize.y)) {
@@ -85,3 +86,5 @@ bool MouseTile::isMouseClickedOnTile( sf::Vector2f& tilePosition, sf::Vector2i& 
 	}
 	return false;
 }
+
+

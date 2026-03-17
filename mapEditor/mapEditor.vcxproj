@@ -155,6 +155,7 @@
     <ClCompile Include="src\MouseTile.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\TileSelectionPane.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\MapSaver.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\MouseTile.h" />
     <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\Tile.h" />
+    <ClInclude Include="src\TileSelectionPane.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

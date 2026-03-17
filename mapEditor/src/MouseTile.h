@@ -13,6 +13,9 @@ private:
 	sf::Vector2f m_snapPosition;
 	sf::Vector2f m_tileScale;
 	sf::Vector2f m_offset;
+
+	int m_tilesPerRow;
+
 	bool m_isMouseOnGrid;
 
 	int m_currentTileID;
@@ -31,6 +34,7 @@ public:
 	inline const sf::Sprite& GetTileSprite()const { return m_tile; }
 	inline int GetCurrentTileID()const { return m_currentTileID; }
 
+	inline void SetCurrentTileID(int currentTileID) { m_currentTileID = currentTileID; }
 };
 
 

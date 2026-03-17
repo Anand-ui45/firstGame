@@ -1,79 +1,54 @@
 #include "Map.h"
 #include <iostream>
 
-Map::Map():totalTilesX(0),totalTilesY(0),totalTiles(0),tiles(nullptr){
-	
-	maploader.Load("assets/maps/level_1.rmap", mapsData);//its load data from file and saved the data to the second arugement
-	mapSprties.reserve(mapsData.dataLength);
-	for (size_t i = 0; i < mapsData.dataLength; i++) {
-		mapSprties.emplace_back(tileTexture);
-	}
-}
-
-Map::~Map(){
-	delete tiles;
-}
-
-void Map::Initialize(){
-
-}
-
-void Map::Load(){
-
-
-
-
-	if (tileTexture.loadFromFile(mapsData.tilesheet)) {
-     
-		std::cout << "map loaded" << std::endl;
-		totalTilesX = tileTexture.getSize().x / mapsData.cellSizeX;//24
-		totalTilesY = tileTexture.getSize().y / mapsData.cellSizeY;//12
-
-		int xIndex = 0;
-		int yIndex = 0;
-		
-		totalTiles = totalTilesX * totalTilesY;
-
-		tiles = new Tile[totalTiles];
-	
-
-		for (int y = 0; y < totalTilesY; y++) {
-			for (int x = 0; x < totalTilesX; x++) {
-
-				int i = x + y * totalTilesX;
-				tiles[i].id = i;
-				tiles[i].position = sf::Vector2i(x * mapsData.cellSizeX, y * mapsData.cellSizeY);
-				
-		
-			}
-		}
-
-	}
-	else {
-		std::cout << "map not loaded" << std::endl;
-	}
-	for (int y = 0; y < mapsData.totalCellsY; y++) {
-		for (int x = 0; x < mapsData.totalCellsX; x++) {
-			int i = x + y * mapsData.totalCellsX;
-			int index = mapsData.data[i];
-
-			if (i < mapSprties.size()) {
-				mapSprties[i].setTexture(tileTexture,true);
-				mapSprties[i].setTextureRect(sf::IntRect({ tiles[index].position.x, tiles[index].position.y }, { mapsData.cellSizeX, mapsData.cellSizeY }));
-				mapSprties[i].setScale(sf::Vector2f( mapsData.mapScaleX, mapsData.mapScaleY ));
-				mapSprties[i].setPosition(sf::Vector2f( mapsData.mapPositionX+ x * mapsData.cellSizeX * mapsData.mapScaleX, mapsData.mapPositionY + y * mapsData.cellSizeY * mapsData.mapScaleY ));
-			}
-		}
-	}
-}
-
-void Map::Update(float deltatime)
+Map::Map(const Grid& grid, const MouseTile& mouseTile)
+    : m_grid(grid), m_mouseTile(mouseTile)
 {
+    int totalCells = m_grid.GetTotalCells().x * m_grid.GetTotalCells().y;
+
+    // Initialize the layers
+    m_layerIDs.resize(m_numLayers, std::vector<int>(totalCells, -1)); // -1 means empty
+    m_layerSprites.resize(m_numLayers, std::vector<sf::Sprite>(totalCells));
 }
 
-void Map::Draw(sf::RenderWindow& window){
-	for (int i = 0; i < mapsData.dataLength; i++) {
-		window.draw(mapSprties[i]);
-	}
-	
+Map::~Map() {
+    // std::vector handles its own memory, no more 'delete[]' needed!
+}
+
+void Map::Initialize() {
+    // Ensure the texture is loaded for the sprites to use
+    if (!m_tileTexture.loadFromFile("assets/world/prison/tilesheet.png")) {
+        std::cout << "Map Texture failed to load!" << std::endl;
+    }
+}
+
+void Map::Load() {}
+
+void Map::Update(float deltatime) {
+    sf::Vector2f tilePosition;
+    sf::Vector2i gridPosition;
+
+    if (m_mouseTile.isMouseClickedOnTile(tilePosition, gridPosition)) {
+        int i = gridPosition.x + gridPosition.y * m_grid.GetTotalCells().x;
+
+        // Safety check for vector bounds
+        if (i >= 0 && i < m_layerIDs[m_activeLayer].size()) {
+            // Update only the active layer
+            m_layerIDs[m_activeLayer][i] = m_mouseTile.GetCurrentTileID();
+            m_layerSprites[m_activeLayer][i] = m_mouseTile.GetTileSprite();
+            m_layerSprites[m_activeLayer][i].setPosition(tilePosition);
+        }
+    }
+}
+
+void Map::Draw(sf::RenderWindow& window) {
+    // Loop through layers from bottom (0) to top (m_numLayers)
+    for (int l = 0; l < m_numLayers; l++) {
+        for (int i = 0; i < m_layerIDs[l].size(); i++) {
+            // Only draw if the tile ID is not -1 (not empty)
+            if (m_layerIDs[l][i] != -1) {
+                window.draw(m_layerSprites[l][i]);
+            }
+        }
+    }
 }
